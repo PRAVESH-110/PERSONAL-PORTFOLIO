@@ -1,4 +1,4 @@
- AOS.init({
+AOS.init({
  	duration: 800,
  	easing: 'slide'
  });
@@ -111,23 +111,23 @@
 
 	$('nav .dropdown').hover(function(){
 		var $this = $(this);
-		// 	 timer;
-		// clearTimeout(timer);
 		$this.addClass('show');
 		$this.find('> a').attr('aria-expanded', true);
-		// $this.find('.dropdown-menu').addClass('animated-fast fadeInUp show');
 		$this.find('.dropdown-menu').addClass('show');
 	}, function(){
 		var $this = $(this);
-			// timer;
-		// timer = setTimeout(function(){
-			$this.removeClass('show');
-			$this.find('> a').attr('aria-expanded', false);
-			// $this.find('.dropdown-menu').removeClass('animated-fast fadeInUp show');
-			$this.find('.dropdown-menu').removeClass('show');
-		// }, 100);
+		$this.removeClass('show');
+		$this.find('> a').attr('aria-expanded', false);
+		$this.find('.dropdown-menu').removeClass('show');
 	});
 
+	// Close dropdown when clicking outside
+	$(document).on('click', function (e) {
+		if (!$(e.target).closest('.navbar-nav').length) {
+			$('.js-fh5co-nav-toggle').removeClass('active');
+			$('#ftco-nav').removeClass('show');
+		}
+	});
 
 	$('#dropdown04').on('show.bs.dropdown', function () {
 	  console.log('show');
@@ -169,11 +169,13 @@
 					sd.removeClass('sleep');
 				}
 			}
+			if (st > 0) { // Check if the user is scrolling down
+				$('.js-fh5co-nav-toggle').removeClass('active'); // Remove active class from the toggle
+				$('#ftco-nav').removeClass('show'); // Hide the dropdown menu
+			}
 		});
 	};
 	scrollWindow();
-
-	
 
 	var counter = function() {
 		
@@ -269,9 +271,4 @@
     fixedContentPos: false
   });
 
-
-
-
-
 })(jQuery);
-
