@@ -14,7 +14,7 @@ body {
 
 @media (max-width: 768px) {
     .hero {
-        height: 100vh; /* Set height to full viewport height on mobile */
+        height: auto; /* Changed from 100vh to auto for mobile */
     }
     .ftco-section {
         padding: 4em 0; /* Adjust padding for better spacing on smaller screens */
