@@ -6,6 +6,7 @@ body {
 
 .hero {
     height: auto; /* Allow height to adjust based on content */
+    overflow: auto; /* Ensure scrolling is enabled */
 }
 
 .ftco-section {
