@@ -1,5 +1,15 @@
 /* Custom styles for responsive design and scrolling issues */
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Adjust this value based on your navbar height */
+}
+
+/* Add scroll-margin-top to all section elements */
+section {
+    scroll-margin-top: 80px; /* Adjust this value to match your navbar height */
+}
+
 body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
@@ -11,15 +21,30 @@ body {
 
 .ftco-section {
     padding: 6em 0; /* Adjust padding for better spacing on larger screens */
+    scroll-margin-top: 80px; /* Add scroll margin to sections */
 }
 
+/* Adjust for mobile */
 @media (max-width: 768px) {
+    html {
+        scroll-padding-top: 70px; /* Slightly less for mobile */
+    }
+    
+    section {
+        scroll-margin-top: 60px; /* Slightly less for mobile */
+    }
+    
     .hero {
         height: auto; /* Changed from 100vh to auto for mobile */
     }
+    
     .ftco-section {
         padding: 4em 0; /* Adjust padding for better spacing on smaller screens */
+        scroll-margin-top: 60px; /* Slightly less for mobile */
     }
 }
 
-/* Additional styles can be added here as needed */
+/* Ensure smooth scrolling for anchor links */
+a[href^="#"] {
+    text-decoration: none;
+}
