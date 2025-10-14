@@ -2,49 +2,188 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Adjust this value based on your navbar height */
+    scroll-padding-top: 120px; /* Adjusted to match navbar height */
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
 }
 
 /* Add scroll-margin-top to all section elements */
 section {
-    scroll-margin-top: 80px; /* Adjust this value to match your navbar height */
+    scroll-margin-top: 100px; /* Adjusted to match navbar height */
 }
 
 body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+    touch-action: pan-y; /* Allow vertical scrolling but prevent horizontal */
 }
 
 .hero {
     height: auto; /* Allow height to adjust based on content */
-    overflow: auto; /* Ensure scrolling is enabled */
+    overflow: visible; /* Ensure content is visible and scrollable */
+    min-height: 100vh; /* Minimum height for desktop, adjustable for mobile */
 }
 
 .ftco-section {
     padding: 6em 0; /* Adjust padding for better spacing on larger screens */
-    scroll-margin-top: 80px; /* Add scroll margin to sections */
+    scroll-margin-top: 100px; /* Adjusted to match navbar height */
 }
 
-/* Adjust for mobile */
+/* Mobile-specific fixes */
 @media (max-width: 768px) {
     html {
-        scroll-padding-top: 70px; /* Slightly less for mobile */
+        scroll-padding-top: 90px; /* Adjusted for mobile navbar height */
+        -webkit-text-size-adjust: 100%; /* Prevent text scaling issues */
+    }
+    
+    body {
+        position: relative; /* Fix for iOS Safari scrolling issues */
+        min-height: 100vh;
+        touch-action: pan-y; /* Allow only vertical scrolling */
     }
     
     section {
-        scroll-margin-top: 60px; /* Slightly less for mobile */
+        scroll-margin-top: 80px; /* Adjusted for mobile navbar height */
+        position: relative; /* Ensure proper stacking */
     }
     
     .hero {
-        height: auto; /* Changed from 100vh to auto for mobile */
+        height: auto !important; /* Force auto height on mobile */
+        min-height: calc(100vh - 80px); /* Reduced height to account for navbar */
+        overflow: visible !important; /* Ensure content is scrollable */
+        position: relative;
+        padding-top: 60px; /* Add padding to push content down from fixed navbar */
     }
     
     .ftco-section {
         padding: 4em 0; /* Adjust padding for better spacing on smaller screens */
-        scroll-margin-top: 60px; /* Slightly less for mobile */
+        scroll-margin-top: 80px; /* Adjusted for mobile navbar height */
+    }
+    
+    /* Fix for carousel height on mobile */
+    .owl-carousel.home-slider {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+    }
+    
+    .owl-carousel.home-slider .slider-item {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+        display: flex;
+        align-items: center;
+        padding-top: 0 !important;
+    }
+    
+    /* Fix fullheight elements on mobile */
+    .js-fullheight {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+    }
+    
+    /* Navbar fixes for mobile */
+    .ftco_navbar {
+        position: fixed !important;
+        width: 100%;
+        z-index: 9999;
+    }
+    
+    /* Navigation menu fixes */
+    .navbar-collapse {
+        background-color: rgba(0, 0, 0, 0.95);
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border-radius: 5px;
+    }
+    
+    /* Touch improvements */
+    .nav-link, .navbar-toggler, .btn {
+        touch-action: manipulation; /* Improve touch responsiveness */
+    }
+    
+    /* Mobile slider content positioning */
+    .slider-text {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    .slider-text .one-forth {
+        padding-top: 1rem !important;
+        justify-content: center !important;
+    }
+    
+    /* Reduce hero section scroll margin for mobile */
+    #home-section {
+        scroll-margin-top: 0 !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* Additional mobile fixes for very small screens */
+@media (max-width: 480px) {
+    .hero {
+        min-height: calc(100vh - 80px);
+        padding-top: 50px; /* Reduced padding for small screens */
+    }
+    
+    .ftco-section {
+        padding: 3em 0;
+    }
+    
+    /* Ensure text remains readable */
+    .slider-text h1 {
+        font-size: 32px !important;
+    }
+    
+    .slider-text h2 {
+        font-size: 24px !important;
+    }
+}
+
+/* Fix for iOS Safari bounce effect */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    body {
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
     }
 }
 
 /* Ensure smooth scrolling for anchor links */
 a[href^="#"] {
     text-decoration: none;
+}
+
+/* Fix viewport issues on mobile */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
+
+/* Optional: Prevent body scrolling when mobile menu is open */
+body.nav-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* Additional mobile navigation improvements */
+@media (max-width: 768px) {
+    .navbar-toggler {
+        border: none !important;
+        padding: 0.25rem 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.75rem 0;
+        font-size: 1.1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .navbar-nav .nav-link:last-child {
+        border-bottom: none;
+    }
 }

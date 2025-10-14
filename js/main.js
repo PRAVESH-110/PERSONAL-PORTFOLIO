@@ -18,14 +18,76 @@ AOS.init({
 
 
 	var fullHeight = function() {
-
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
+		// Check if device is mobile
+		var isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+		
+		if (!isMobile) {
+			// Only apply fixed height on desktop/tablet
 			$('.js-fullheight').css('height', $(window).height());
+		} else {
+			// On mobile, use reduced height to account for fixed navbar
+			$('.js-fullheight').css({
+				'height': 'auto',
+				'min-height': $(window).height() - 80 // Subtract navbar height
+			});
+		}
+		
+		$(window).resize(function(){
+			var isMobileResize = window.matchMedia("only screen and (max-width: 768px)").matches;
+			
+			if (!isMobileResize) {
+				$('.js-fullheight').css('height', $(window).height());
+			} else {
+				$('.js-fullheight').css({
+					'height': 'auto',
+					'min-height': $(window).height() - 80
+				});
+			}
 		});
 
 	};
 	fullHeight();
+
+	// Dynamic navbar height calculation
+	var updateNavbarOffset = function() {
+		// Wait for DOM to be fully loaded
+		setTimeout(function() {
+			var navbar = $('#ftco-navbar');
+			if (navbar.length) {
+				var navbarHeight = navbar.outerHeight();
+				var isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+				
+				// Calculate appropriate offset
+				var extraPadding = isMobile ? 20 : 30;
+				var totalOffset = navbarHeight + extraPadding;
+				
+				// Update body data-offset attribute
+				$('body').attr('data-offset', totalOffset);
+				
+				// Update CSS custom properties for scroll-padding-top
+				document.documentElement.style.setProperty('--navbar-height', totalOffset + 'px');
+				
+				// On mobile, also update hero height dynamically
+				if (isMobile) {
+					var windowHeight = $(window).height();
+					var heroHeight = windowHeight - navbarHeight;
+					
+					$('.hero').css('min-height', heroHeight + 'px');
+					$('.owl-carousel.home-slider').css('min-height', heroHeight + 'px');
+					$('.owl-carousel.home-slider .slider-item').css('min-height', heroHeight + 'px');
+					$('.js-fullheight').css('min-height', heroHeight + 'px');
+				}
+				
+				console.log('Navbar height calculated:', navbarHeight, 'Total offset set to:', totalOffset);
+			}
+		}, 100);
+	};
+	
+	// Call on load and resize
+	updateNavbarOffset();
+	$(window).resize(function() {
+		updateNavbarOffset();
+	});
 
 	// loader
 	var loader = function() {
@@ -51,12 +113,22 @@ AOS.init({
 
 			if ( $('#ftco-nav').is(':visible') ) {
 				$(this).removeClass('active');
+				$('#ftco-nav').removeClass('show');
+				// Re-enable body scrolling
+				$('body').removeClass('nav-open');
 			} else {
-				$(this).addClass('active');	
+				$(this).addClass('active');
+				$('#ftco-nav').addClass('show');
+				// Optional: Prevent body scrolling when menu is open (uncomment if needed)
+				// $('body').addClass('nav-open');
 			}
-
-			
-			
+		});
+		
+		// Close menu when clicking on nav links
+		$('#ftco-nav a[href^="#"]').on('click', function() {
+			$('.js-fh5co-nav-toggle').removeClass('active');
+			$('#ftco-nav').removeClass('show');
+			$('body').removeClass('nav-open');
 		});
 
 	};
@@ -65,17 +137,38 @@ AOS.init({
 
 	var onePageClick = function() {
 
-
 		$(document).on('click', '#ftco-nav a[href^="#"]', function (event) {
 	    event.preventDefault();
 
 	    var href = $.attr(this, 'href');
-
-	    $('html, body').animate({
-	        scrollTop: $($.attr(this, 'href')).offset().top - 70
-	    }, 500, function() {
-	    	// window.location.hash = href;
-	    });
+	    var target = $(href);
+	    
+	    // Check if target exists
+	    if (target.length) {
+	    	// Calculate dynamic offset based on actual navbar height
+	    	var navbar = $('#ftco-navbar');
+	    	var navbarHeight = navbar.outerHeight();
+	    	var isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+	    	
+	    	// Add extra padding for better visual separation
+	    	var extraPadding = isMobile ? 20 : 30;
+	    	var offset = navbarHeight + extraPadding;
+	    	
+	    	// Debug log to see actual values (remove in production)
+	    	console.log('Navbar height:', navbarHeight, 'Total offset:', offset);
+	    	
+	    	// Close mobile menu if open
+	    	$('.js-fh5co-nav-toggle').removeClass('active');
+	    	$('#ftco-nav').removeClass('show');
+	    	$('body').removeClass('nav-open');
+	    	
+		    $('html, body').animate({
+		        scrollTop: target.offset().top - offset
+		    }, 800, 'easeInOutExpo', function() {
+		    	// Optional: Update URL hash
+		    	// window.location.hash = href;
+		    });
+	    }
 		});
 
 	};
