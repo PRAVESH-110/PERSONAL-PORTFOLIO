@@ -1,25 +1,108 @@
 /* Custom styles for responsive design and scrolling issues */
 
 body {
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+        padding-top: var(--navbar-height);
+
+    padding-top: 80px; /* Remove body padding */
 }
 
-.hero {
-    height: auto; /* Allow height to adjust based on content */
-    overflow: auto; /* Ensure scrolling is enabled */
+/* Navbar */
+.ftco-navbar-light {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9) !important;
+    padding: 15px 0;
+    margin: 0;
 }
 
+/* Hero Section */
+#home-section.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Ensure content starts below navbar */
+#home-section.hero .container {
+    margin-top: 0; /* Additional pto push content below navbar */
+}
+
+/* .slider-item,
+.slider-item > .container, */
+.slider-text {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.slider-text {
+    display: flex !important;
+    align-items: center;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0 auto;
+}
+
+.hero .text {
+    text-align: center;
+    max-width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+}
+
+/* Navbar */
+.ftco-navbar-light {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9) !important;
+    padding: 15px 0;
+    transition: all 0.3s ease;
+
+}
+
+/* Adjust sections to account for fixed navbar */
 .ftco-section {
-    padding: 6em 0; /* Adjust padding for better spacing on larger screens */
+    padding: 6em 0;
+    position: relative;
 }
 
+/* Remove default margin from h1, h2 in hero */
+.hero h1, 
+.hero h2 {
+    margin: 10px 0;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .hero {
-        height: auto; /* Changed from 100vh to auto for mobile */
+    :root {
+        --navbar-height: 70px; /* smaller navbar on mobile */
     }
+    body {
+        padding-top: 70px; /* Slightly less padding on mobile */
+    }
+    
+    #home-section.hero {
+        min-height: calc(100vh -  var(--navbar-height));
+        padding: 0 0 0;
+    }
+    
+    .hero .text {
+        padding: 0 ;
+    }
+    
     .ftco-section {
-        padding: 4em 0; /* Adjust padding for better spacing on smaller screens */
+        padding: 4em 0;
     }
 }
-
-/* Additional styles can be added here as needed */
