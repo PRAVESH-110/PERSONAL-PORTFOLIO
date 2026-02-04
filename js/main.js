@@ -70,9 +70,16 @@ AOS.init({
 	    event.preventDefault();
 
 	    var href = $.attr(this, 'href');
+	    var $target = $(href);
+	    if (!$target.length) {
+	    	return;
+	    }
+
+	    var navHeight = $('#ftco-navbar').outerHeight() || 0;
+	    var targetTop = $target.offset().top - navHeight + 1;
 
 	    $('html, body').animate({
-	        scrollTop: $($.attr(this, 'href')).offset().top - 70
+	        scrollTop: targetTop
 	    }, 500, function() {
 	    	// window.location.hash = href;
 	    });
@@ -81,6 +88,21 @@ AOS.init({
 	};
 
 	onePageClick();
+
+	var initScrollSpy = function() {
+		var navHeight = $('#ftco-navbar').outerHeight() || 0;
+		var $body = $('body');
+		if ($body.data('bs.scrollspy')) {
+			$body.scrollspy('dispose');
+		}
+		$body.scrollspy({
+			target: '.site-navbar-target',
+			offset: navHeight + 1
+		});
+	};
+
+	initScrollSpy();
+	$(window).on('resize', initScrollSpy);
 	
 
 	var carousel = function() {
